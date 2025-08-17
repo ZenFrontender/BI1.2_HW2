@@ -78,6 +78,7 @@ const readAllHotels = async() =>{
     try{
         const allHotels = await Hotel.find();
         console.log(allHotels);
+        return allHotels;
         
     }
     catch(error){
@@ -85,6 +86,23 @@ const readAllHotels = async() =>{
         
     }
 }
+
+app.get('/hotels', async (req, res)=>{
+    try{
+        const hotels = await readAllHotels();
+        if(hotels){
+            res.status(200).json({Hotels: hotels})
+        }
+        else{
+             res.status(400).json({error: "an error occurred while retreiving Hotels"})
+        }
+    }
+    catch(error){
+        res.status(500).json({error: "an error occurred while retreiving Hotels"})
+    }
+    
+
+})
 
 // readAllHotels();
 
