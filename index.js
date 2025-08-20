@@ -123,12 +123,32 @@ const readHotelByName = async (HotelName) =>{
         const HotelByName = await Hotel.findOne({name: HotelName});
 
         console.log(HotelByName);
+
+        return HotelByName;
         
     }
     catch(error){
         throw error;
     }
 }
+
+app.get('/hotels/:hotelName', async (req, res)=>{
+    try{
+        const hotel = await readHotelByName(req.params.hotelName);
+       
+        if(hotel){
+            res.status(200).json({Hotel: hotel})
+        }
+        else{
+             res.status(400).json({error: "an error occurred while retreiving Hotels"})
+        }
+    }
+    catch(error){
+        res.status(500).json({error: "an error occurred while retreiving Hotels"})
+    }
+    
+
+})
 
 
 // readHotelByName("Lake View");
